@@ -42,6 +42,12 @@ The project is designed around small ESP32 boards:
 
 The current master is a normal ESP32 Dev board. It is used as the web/control hub so the dashboard ESP32-C6 does not also have to handle all master-side web, command, and coordination work.
 
+Power conversion used in this build:
+
+- Each door uses a 12 V to 5 V 3 A converter for the LED/ESP setup.
+- The dashboard uses one 12 V to 3.3 V 2 A converter for the ESP32-C6.
+- The dashboard LEDs use a separate 12 V to 5 V 5 A converter.
+
 The LED strips used in this build are simple AliExpress ambient strips that normally come with a USB control dongle. In my wiring, red was minus and black was plus, so check polarity carefully before connecting power. Do not trust wire colors blindly.
 
 LED strip link:

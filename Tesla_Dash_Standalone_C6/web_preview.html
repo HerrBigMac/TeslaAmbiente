@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Elenas Dashboard Preview</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#101214;color:#f4f4f4}
+    main{max-width:760px;margin:auto;padding:22px}
+    section{border-top:1px solid #30343a;padding:18px 0}
+    label{display:block;margin:12px 0 6px;color:#cfd3da}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input,select,button{font:inherit;border-radius:8px;border:1px solid #3a3f47;background:#191d22;color:#fff;padding:10px}
+    input[type=color]{width:76px;height:48px;padding:4px}
+    .wide{width:100%;box-sizing:border-box}
+    button{background:#2d6cdf;border-color:#2d6cdf;cursor:pointer}
+    .secondary{background:#242930;border-color:#3a3f47}
+    .status{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+    .tile{background:#191d22;padding:12px;border-radius:8px}
+    .preset{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin:14px 0;align-items:center}
+    .rename{display:none;grid-column:1/-1;grid-template-columns:1fr auto;gap:10px}
+    .rename.show{display:grid}
+    .small{font-size:13px;padding:8px 10px;background:#242930;border-color:#3a3f47;color:#cfd3da}
+    .muted{color:#9aa3ad;font-size:13px}
+    .ok{color:#65d88d}
+    .warn{color:#ffd166}
+  </style>
+  <script>
+    function showRename(id){
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('show');
+    }
+  </script>
+</head>
+<body>
+<main>
+  <h1>Elenas Dashboard</h1>
+
+  <section>
+    <div class="status">
+      <div class="tile"><div class="muted">Auto</div><b class="ok">wach</b></div>
+      <div class="tile"><div class="muted">CAN Helligkeit</div><b>72.5%</b></div>
+      <div class="tile"><div class="muted">Laden</div><b>aktiv | 68%</b></div>
+      <div class="tile"><div class="muted">Autopilot</div><b>aus</b></div>
+      <div class="tile"><div class="muted">Totwinkel</div><b>L frei | R erkannt</b></div>
+      <div class="tile"><div class="muted">Blinker</div><b>Blinker L aus | Blinker R an</b></div>
+      <div class="tile"><div class="muted">Tueren</div><b>FL zu | FR offen | RL zu | RR zu</b></div>
+    </div>
+  </section>
+
+  <form>
+    <section>
+      <h2>Basis</h2>
+      <label>Farbe</label>
+      <input type="color" value="#FF0000">
+      <label>Effekt</label>
+      <select class="wide">
+        <option>Statisch</option>
+        <option>Atmen</option>
+        <option>Blinken</option>
+        <option>Regenbogen</option>
+        <option>Farbaufbau</option>
+        <option>Scanner</option>
+        <option>Laufpunkte</option>
+        <option>Wellen</option>
+        <option>Funkeln</option>
+        <option>Feuer</option>
+        <option>Rot/Blau</option>
+        <option>Fortschrittsbalken</option>
+        <option>Weiches Fading</option>
+        <option>Strobe</option>
+        <option>Meteor</option>
+      </select>
+      <label><input type="checkbox" checked> Helligkeit automatisch vom CAN-Displaywert</label>
+      <label>Eigene Helligkeit</label>
+      <input class="wide" type="range" min="0" max="255" value="120">
+      <div class="row">
+        <button type="button">Speichern</button>
+        <button class="secondary" type="button">Hex / RGB anzeigen</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hex / RGB</h2>
+      <label>Hex</label>
+      <input class="wide" value="FF0000">
+      <div class="row">
+        <div><label>R</label><input type="number" min="0" max="255" value="255"></div>
+        <div><label>G</label><input type="number" min="0" max="255" value="0"></div>
+        <div><label>B</label><input type="number" min="0" max="255" value="0"></div>
+      </div>
+      <label>Speed</label>
+      <input class="wide" type="range" min="1" max="255" value="120">
+      <label>Intensity</label>
+      <input class="wide" type="range" min="0" max="255" value="120">
+    </section>
+  </form>
+
+  <form>
+    <section>
+      <h2>Fahrzeugfunktionen</h2>
+      <label><input type="checkbox" checked> Ladebalken</label>
+      <p class="muted">Ladebalken ist rot mit Sweep und wird ab 75% gruen.</p>
+      <label><input type="checkbox" checked> Autopilot Anzeige</label>
+      <label>Autopilot Farbe</label>
+      <input type="color" value="#0046FF">
+      <label><input type="checkbox" checked> Totwinkel</label>
+      <label><input type="checkbox" checked> Totwinkel nur beim Blinken</label>
+      <label>Totwinkel Anteil je Seite (%)</label>
+      <input class="wide" type="number" min="1" max="50" value="25">
+      <label>Totwinkel Farbe</label>
+      <input type="color" value="#FFBE00">
+      <label><input type="checkbox"> Blinkeranzeige</label>
+      <label>Blinker Anteil je Seite (%)</label>
+      <input class="wide" type="number" min="1" max="50" value="25">
+      <label>Blinker Farbe</label>
+      <input type="color" value="#00FF00">
+      <label><input type="checkbox" checked> Tuer offen Anzeige</label>
+      <label>Tuer offen Anteil je Seite (%)</label>
+      <input class="wide" type="number" min="1" max="50" value="25">
+      <label>Tuer offen Farbe</label>
+      <input type="color" value="#FF7800">
+      <label><input type="checkbox" checked> Begruessungsanimation</label>
+      <label><input type="checkbox" checked> Ausschaltanimation</label>
+      <button type="button">Speichern</button>
+    </section>
+  </form>
+
+  <section>
+    <h2>Presets</h2>
+    <div class="preset">
+      <button class="secondary wide">Rot</button>
+      <button>Speichern</button>
+      <button class="small" onclick="showRename('rename0')">Umbenennen</button>
+      <div id="rename0" class="rename"><input value="Rot"><button>Namen speichern</button></div>
+    </div>
+    <div class="preset">
+      <button class="secondary wide">Nacht</button>
+      <button>Speichern</button>
+      <button class="small" onclick="showRename('rename1')">Umbenennen</button>
+      <div id="rename1" class="rename"><input value="Nacht"><button>Namen speichern</button></div>
+    </div>
+    <div class="preset">
+      <button class="secondary wide">Show</button>
+      <button>Speichern</button>
+      <button class="small" onclick="showRename('rename2')">Umbenennen</button>
+      <div id="rename2" class="rename"><input value="Show"><button>Namen speichern</button></div>
+    </div>
+    <div class="preset">
+      <button class="secondary wide">Autobahn</button>
+      <button>Speichern</button>
+      <button class="small" onclick="showRename('rename3')">Umbenennen</button>
+      <div id="rename3" class="rename"><input value="Autobahn"><button>Namen speichern</button></div>
+    </div>
+    <p class="muted">Aktives Preset: Rot</p>
+    <div class="row">
+      <button class="secondary">Aus</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Update</h2>
+    <button>Firmware hochladen</button>
+  </section>
+</main>
+</body>
+</html>

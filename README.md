@@ -34,10 +34,19 @@ The project is designed around small ESP32 boards:
 
 - ESP32-C6 Supermini / Tiny Mini
 - ESP32-C3 Supermini for door slaves
+- Normal ESP32 Dev board for the master
 - SN65HVD230 CAN transceivers
 - WS2812 / WS2812B compatible RGB LED strips
 - Suitable 5 V LED power supply or buck converter
 - Common ground between ESP, LED power supply, and vehicle reference ground
+
+The current master is a normal ESP32 Dev board. It is used as the web/control hub so the dashboard ESP32-C6 does not also have to handle all master-side web, command, and coordination work.
+
+The LED strips used in this build are simple AliExpress ambient strips that normally come with a USB control dongle. In my wiring, red was minus and black was plus, so check polarity carefully before connecting power. Do not trust wire colors blindly.
+
+LED strip link:
+
+[AliExpress ambient LED strip](https://de.aliexpress.com/item/1005008083921156.html?spm=a2g0o.order_list.order_list_main.16.21ef5c5fijuwUP&gatewayAdapt=glo2deu)
 
 ## Current Pin Layout
 
@@ -62,6 +71,8 @@ LED data: GPIO21
 ### Tesla_Dash_Standalone_C6
 
 Standalone dashboard controller. One ESP32-C6 reads both CAN buses and directly drives the dashboard LED strip. It also provides the web overlay and OTA update page.
+
+This standalone firmware is included for builds where you do not want to buy or use the S3XY Strip. The ESP32-C6 handles CAN reading, dashboard LED output, the web overlay, and OTA by itself.
 
 Important functions:
 
@@ -94,6 +105,8 @@ Important functions:
 ### Tesla_Ambiente_Door_Slave_OTA
 
 Door LED slave firmware. This receives ESP-NOW LED commands, controls the configured LED range, supports OTA mode, and can acknowledge received commands.
+
+Before flashing a door slave, the device letter must be adjusted in the sketch so the module knows which door it belongs to. Flash the same firmware to each door, but change the target letter first.
 
 Door target mapping:
 

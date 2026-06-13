@@ -1,0 +1,300 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA000001 /* TeslaAmbienteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000101 /* TeslaAmbienteApp.swift */; };
+		AA000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000102 /* ContentView.swift */; };
+		AA000003 /* BLEModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000103 /* BLEModels.swift */; };
+		AA000004 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000104 /* AppState.swift */; };
+		AA000005 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000105 /* BLEManager.swift */; };
+		AA000006 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000106 /* MainViewModel.swift */; };
+		AA000007 /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000107 /* GlassCard.swift */; };
+		AA000008 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000108 /* DashboardView.swift */; };
+		AA000009 /* BLEScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000109 /* BLEScannerView.swift */; };
+		AA000010 /* LEDControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000110 /* LEDControlView.swift */; };
+		AA000011 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000111 /* SettingsView.swift */; };
+		AA000012 /* OTAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000112 /* OTAView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA000101 /* TeslaAmbienteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaAmbienteApp.swift; sourceTree = "<group>"; };
+		AA000102 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ContentView.swift"; sourceTree = "<group>"; };
+		AA000103 /* BLEModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/BLEModels.swift"; sourceTree = "<group>"; };
+		AA000104 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/AppState.swift"; sourceTree = "<group>"; };
+		AA000105 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/BLEManager.swift"; sourceTree = "<group>"; };
+		AA000106 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewModels/MainViewModel.swift"; sourceTree = "<group>"; };
+		AA000107 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/Components/GlassCard.swift"; sourceTree = "<group>"; };
+		AA000108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/Dashboard/DashboardView.swift"; sourceTree = "<group>"; };
+		AA000109 /* BLEScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/Dashboard/BLEScannerView.swift"; sourceTree = "<group>"; };
+		AA000110 /* LEDControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/LEDControl/LEDControlView.swift"; sourceTree = "<group>"; };
+		AA000111 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/Settings/SettingsView.swift"; sourceTree = "<group>"; };
+		AA000112 /* OTAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/OTA/OTAView.swift"; sourceTree = "<group>"; };
+		AA000200 /* TeslaAmbiente.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeslaAmbiente.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000201 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TeslaAmbiente/Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA000300 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA000400 = {
+			isa = PBXGroup;
+			children = (
+				AA000401 /* TeslaAmbiente */,
+				AA000410 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA000401 /* TeslaAmbiente */ = {
+			isa = PBXGroup;
+			children = (
+				AA000101 /* TeslaAmbienteApp.swift */,
+				AA000102 /* ContentView.swift */,
+				AA000103 /* BLEModels.swift */,
+				AA000104 /* AppState.swift */,
+				AA000105 /* BLEManager.swift */,
+				AA000106 /* MainViewModel.swift */,
+				AA000107 /* GlassCard.swift */,
+				AA000108 /* DashboardView.swift */,
+				AA000109 /* BLEScannerView.swift */,
+				AA000110 /* LEDControlView.swift */,
+				AA000111 /* SettingsView.swift */,
+				AA000112 /* OTAView.swift */,
+				AA000201 /* Info.plist */,
+			);
+			path = TeslaAmbiente;
+			sourceTree = "<group>";
+		};
+		AA000410 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA000200 /* TeslaAmbiente.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA000500 /* TeslaAmbiente */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000600 /* Build configuration list for PBXNativeTarget "TeslaAmbiente" */;
+			buildPhases = (
+				AA000510 /* Sources */,
+				AA000300 /* Frameworks */,
+				AA000520 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TeslaAmbiente;
+			productName = TeslaAmbiente;
+			productReference = AA000200 /* TeslaAmbiente.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA000700 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				ORGANIZATIONNAME = "Tesla Ambiente";
+				TargetAttributes = {
+					AA000500 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = AA000700BL /* Build configuration list for PBXProject "TeslaAmbiente" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = de;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				de,
+				en,
+				Base,
+			);
+			mainGroup = AA000400;
+			productRefGroup = AA000410 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA000500 /* TeslaAmbiente */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA000520 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA000510 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001 /* TeslaAmbienteApp.swift in Sources */,
+				AA000002 /* ContentView.swift in Sources */,
+				AA000003 /* BLEModels.swift in Sources */,
+				AA000004 /* AppState.swift in Sources */,
+				AA000005 /* BLEManager.swift in Sources */,
+				AA000006 /* MainViewModel.swift in Sources */,
+				AA000007 /* GlassCard.swift in Sources */,
+				AA000008 /* DashboardView.swift in Sources */,
+				AA000009 /* BLEScannerView.swift in Sources */,
+				AA000010 /* LEDControlView.swift in Sources */,
+				AA000011 /* SettingsView.swift in Sources */,
+				AA000012 /* OTAView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AA000601 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TeslaAmbiente/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.teslaambiente.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA000602 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TeslaAmbiente/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.teslaambiente.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AA000701 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1 $(inherited)";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA000702 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA000600 /* Build configuration list for PBXNativeTarget "TeslaAmbiente" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA000601 /* Debug */,
+				AA000602 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000700BL /* Build configuration list for PBXProject "TeslaAmbiente" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA000701 /* Debug */,
+				AA000702 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA000700 /* Project object */;
+}

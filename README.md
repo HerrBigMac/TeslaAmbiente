@@ -1,209 +1,212 @@
-# Tesla Ambiente ESP32 Project
+# Tesla Ambiente
 
-ESP32-C6/C3 Tesla ambient lighting project using ESP-NOW, CAN bus data, web controls and OTA. Built to evolve toward replacing the S3XY Commander. Still in development.
+> iOS App + ESP32 BLE-Controller für Tesla Umgebungsbeleuchtung
 
-## Overview
+Tesla Ambiente ist ein Open-Source-Projekt zur vollständigen Steuerung von WS2812B-LED-Streifen in einem Tesla-Fahrzeug. Das System besteht aus einer iOS-App (Swift/SwiftUI) und einem ESP32-basierten Controller-Netzwerk, das via BLE, ESP-NOW und CAN-Bus kommuniziert.
 
-This project is a custom Tesla ambient lighting system based on ESP32 Supermini boards. It reads vehicle and chassis CAN bus data, controls LED strips in the dashboard and doors, and synchronizes modules wirelessly with ESP-NOW.
+---
 
-The system is still in active development. The long-term goal is to replace more functions normally handled by external commander-style modules while keeping the setup modular, configurable, and updateable over the air.
+## Features
 
-## Main Features
+### iOS App
+- **BLE-Steuerung** — Echtzeit-Verbindung zum ESP32 Master via CoreBluetooth
+- **20 LED-Effekte** — Static, Breathing, Rainbow, Fire, Police, MeteorRain und mehr
+- **Zonen-Steuerung** — Individuelle Konfiguration jeder Fahrzeugtür + Dashboard
+- **Fahrzeugstatus** — Live-Anzeige von Blinker, SOC, Gang, Türen, Autopilot, Totwinkel
+- **Dashboard-Features** — Autopilot-LED, Totwinkel-Warnung, Blinker-LED, Ladevorgänge
+- **Presets** — 5 speicherbare Beleuchtungsprofile
+- **OTA Updates** — Firmware-Upload via BLE direkt aus der App (Developer-Bereich)
+- **Dark Mode** — Standard-Darstellung mit Glassmorphism-Design und SF Symbols
+- **MVVM-Architektur** — Sauber strukturiert mit ObservableObject, Combine, UserDefaults
 
-- Dashboard ambient LED control
-- Door ambient LED control
-- ESP-NOW communication between ESP modules
-- CAN bus reading for vehicle state
-- CAN bus reading for chassis / driver-assistance signals
-- Web overlay for configuration
-- OTA firmware update support
-- Adjustable base color, brightness, effects, and presets
-- Automatic brightness based on vehicle display brightness
-- Sleep / wake behavior based on mirror and vehicle state
-- Welcome and goodbye dashboard animations
-- Charging state visualization on the dashboard
-- Automatic charging animation timeout
-- Autopilot dashboard indication
-- Blind spot warning support
-- Side collision warning support while reversing
-- Door-open highlight support
+### Hardware-System
+- **ESP32 Master** — WiFi AP + ESP-NOW + BLE, Web-Overlay, OTA
+- **ESP32-C6 CAN-Bridge** — Dual TWAI (VehicleBus + ChassisBus), 122 LEDs (Dashboard)
+- **4× ESP32 Door Slaves** — Je 130 LEDs, Tür-spezifische Effekte, OTA-fähig
+- **ESP-NOW Mesh** — Latenzarme Kommunikation auf Kanal 6 (Broadcast)
+- **CAN-Bus Decoding** — Tesla-spezifische CAN-IDs für Fahrzeugdaten
 
-## Hardware
+---
 
-The project is designed around small ESP32 boards:
+## Voraussetzungen
 
-- ESP32-C6 Supermini / Tiny Mini
-- ESP32-C3 Supermini for door slaves
-- Normal ESP32 Dev board for the master
-- SN65HVD230 CAN transceivers
-- WS2812 / WS2812B compatible RGB LED strips
-- Suitable 5 V LED power supply or buck converter
-- Common ground between ESP, LED power supply, and vehicle reference ground
+### Hardware
+- ESP32 (Master) — mit ausreichend RAM für WiFi + BLE + ESP-NOW
+- ESP32-C6 (CAN-Bridge/Dashboard) — Dual TWAI, 122 WS2812B LEDs
+- 4× ESP32 (Door Slaves) — je 130 WS2812B LEDs
+- WS2812B LED-Streifen (empfohlen: 60 LED/m oder 144 LED/m)
+- Geeignete Spannungsversorgung (5V für LEDs, 3.3V für ESP32)
 
-The current master is a normal ESP32 Dev board. It is used as the web/control hub so the dashboard ESP32-C6 does not also have to handle all master-side web, command, and coordination work.
+### Software
+- Arduino IDE 2.x oder PlatformIO
+- **ESP32 Board Package** ≥ 3.0 (ESP-IDF v5)
+- Arduino-Bibliotheken:
+  - `NimBLE-Arduino` ≥ 1.4.x
+  - `Adafruit NeoPixel`
+  - `ArduinoJson` (optional, für Debug)
 
-Power conversion used in this build:
+### iOS
+- Xcode 15 oder neuer
+- iOS 17.0+ Deployment Target
+- Echtes iPhone (kein Simulator für BLE)
+- Apple Developer Account (für Device-Deployment)
 
-- Each door uses a 12 V to 5 V 3 A converter for the LED/ESP setup.
-- The dashboard uses one 12 V to 3.3 V 2 A converter for the ESP32-C6.
-- The dashboard LEDs use a separate 12 V to 5 V 5 A converter.
+---
 
-The LED strips used in this build are simple AliExpress ambient strips that normally come with a USB control dongle. In my wiring, red was minus and black was plus, so check polarity carefully before connecting power. Do not trust wire colors blindly.
+## Einrichtung
 
-LED strip link:
+### 1. Arduino-Bibliotheken installieren
 
-[AliExpress ambient LED strip](https://de.aliexpress.com/item/1005008083921156.html?spm=a2g0o.order_list.order_list_main.16.21ef5c5fijuwUP&gatewayAdapt=glo2deu)
-
-## Current Pin Layout
-
-Standalone dashboard ESP32-C6:
-
-```text
-LED data:       GPIO4
-Vehicle CAN TX: GPIO1
-Vehicle CAN RX: GPIO2
-Chassis CAN TX: GPIO15
-Chassis CAN RX: GPIO14
+Im Arduino IDE (Tools → Bibliotheken verwalten):
+```
+NimBLE-Arduino       (h2zero)
+Adafruit NeoPixel    (Adafruit)
 ```
 
-Door slave:
+### 2. ESP32-Board-Package
 
-```text
-LED data: GPIO21
+In Arduino IDE → Einstellungen → Zusätzliche Board-Manager-URLs:
+```
+https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+```
+Dann: Board-Manager → `esp32 by Espressif Systems` ≥ 3.0 installieren.
+
+### 3. Arduino-Dateien flashen
+
+**Reihenfolge:**
+1. Door Slaves zuerst (4×): `TeslaCode/TeslaDoorSlave/TeslaDoorSlave.ino`
+   - `DEVICE_SIDE` anpassen: `'F'` (Vorne links), `'G'` (Vorne rechts), `'R'` (Hinten links), `'L'` (Hinten rechts)
+2. CAN-Bridge/Dashboard: `TeslaCode/TeslaDashMultiply/TeslaDashMultiply.ino`
+3. Master zuletzt: `TeslaCode/Tesla_Ambiente_Master/Tesla_Ambiente_Master.ino`
+
+**Board-Einstellungen für ESP32 Master:**
+```
+Board:         ESP32 Dev Module
+Partition:     Huge APP (3MB No OTA)  ← für BLE + WiFi + ESP-NOW
+Flash Size:    4MB
+Upload Speed:  921600
 ```
 
-## Module Layout
-
-### Tesla_Dash_Standalone_C6
-
-Standalone dashboard controller. One ESP32-C6 reads both CAN buses and directly drives the dashboard LED strip. It also provides the web overlay and OTA update page.
-
-This standalone firmware is included for builds where you do not want to buy or use the S3XY Strip. The ESP32-C6 handles CAN reading, dashboard LED output, the web overlay, and OTA by itself.
-
-Important functions:
-
-- VehicleBus and ChassisBus reading
-- Dashboard LED control
-- Charging animation
-- Autopilot color
-- Blind spot and side collision warning
-- Door-open dashboard highlight
-- Web configuration
-- OTA update
-
-### Tesla_Dash_CANBridge_C6_OTA
-
-Combined CAN bridge and dashboard controller. This ESP32-C6 reads VehicleBus and ChassisBus data, sends data to the master via ESP-NOW, and can control the dashboard strip directly.
-
-### Tesla_Ambiente_Master
-
-Master controller with web overlay. It receives CAN data packets via ESP-NOW and forwards LED commands/settings to door slaves and dashboard modules.
-
-Important functions:
-
-- Web configuration
-- Presets
-- Target selection for all zones, single doors, or dashboard
-- ESP-NOW command dispatch
-- OTA trigger commands for slaves / bridge modules
-- Door ACK retry handling
-
-### Tesla_Ambiente_Door_Slave_OTA
-
-Door LED slave firmware. This receives ESP-NOW LED commands, controls the configured LED range, supports OTA mode, and can acknowledge received commands.
-
-Before flashing a door slave, the device letter must be adjusted in the sketch so the module knows which door it belongs to. Flash the same firmware to each door, but change the target letter first.
-
-Door target mapping:
-
-```text
-F = front right
-G = front left
-R = rear left
-L = rear right
+**Board-Einstellungen für ESP32-C6:**
+```
+Board:         ESP32-C6 Dev Module
+Partition:     Default 4MB with spiffs
 ```
 
-### Tesla_VehicleBus_Reader_Charge
+### 4. iOS App in Xcode öffnen
 
-VehicleBus reader variant with display brightness, mirror state, door state, charging state, and battery SOC decoding.
+```bash
+open iOS/TeslaAmbiente.xcodeproj
+```
 
-## CAN Signals
+- Team auswählen (Signing & Capabilities)
+- Bundle ID ggf. anpassen: `de.teslaambiente.app`
+- Auf echtem iPhone deployen (⌘R)
 
-The project currently uses signals such as:
+---
 
-- Display brightness
-- Battery state of charge
-- Charging state
-- Mirror fold state
-- Door latch state
-- Trunk / liftgate state
-- Autopilot state
-- Blind spot warning
-- Side collision warning
+## Verbindung herstellen
 
-The exact signal mapping is based on the Tesla Model 3 / Model Y DBC data used during development.
+1. ESP32 Master einschalten (sucht sofort BLE-Clients)
+2. iOS App öffnen → **Dashboard** → **"Verbinden"** tippen
+3. `Tesla-Ambiente` in der Liste auswählen
+4. BLE verbindet sich automatisch
 
-## Web Overlay
+Der Master ist gleichzeitig unter `http://192.168.4.1` im Browser erreichbar (WiFi SSID: `Tesla-Ambiente`, Passwort: `12345678`).
 
-The web overlay allows configuration without reflashing:
+---
 
-- Base color
-- Manual brightness
-- Automatic CAN brightness
-- Effects
-- Presets
-- Dashboard LED count
-- Blind spot enable / disable
-- Blind spot percentage
-- Door-open highlight enable / disable
-- Autopilot color
-- Side collision warning enable / disable
-- Charging animation timeout
-- OTA update access
+## OTA Updates (Firmware-Update)
 
-For the standalone dashboard firmware, the charging animation timeout can be changed in minutes. A value of `0` enables the short test timeout.
+### Via iOS App (BLE OTA — empfohlen)
 
-## OTA Updates
+1. In der App: **Developer**-Tab (Passwort: `tesla2024`)
+2. Ziel-Gerät auswählen (Master oder Slave)
+3. Firmware-Datei (`.bin`) über Dateien-Picker auswählen
+4. **"Update starten"** → Fortschritt wird angezeigt
+5. Gerät startet automatisch neu
 
-OTA support is included so installed modules can be updated without removing panels again.
+> Hinweis: Für Door Slaves und CAN-Bridge leitet der Master den OTA-Befehl via ESP-NOW weiter (`SystemCommand.command = 3`). Danach öffnet das Zielgerät seinen eigenen WiFi-AP.
 
-Typical OTA behavior:
+### Via Web-Interface (Master only)
 
-- Master OTA can stay available from the web overlay.
-- Door slaves can open a temporary access point for OTA.
-- Dashboard / CAN bridge modules can open a temporary OTA access point when commanded.
+1. WiFi mit `Tesla-Ambiente` verbinden
+2. `http://192.168.4.1/masterota` aufrufen
+3. `.bin`-Datei hochladen → Flash wird automatisch durchgeführt
 
-Firmware uploads use `.bin` files generated by the Arduino build process.
+### Firmware-Datei erstellen (Arduino IDE)
 
-## LED Behavior Priorities
+```
+Sketch → Exportiere kompilierte Binärdatei → .bin-Datei im Sketch-Verzeichnis
+```
 
-The dashboard prioritizes high-importance states over normal ambient lighting. The intended priority is:
+---
 
-1. Charging animation
-2. Welcome / goodbye animation
-3. Door-open indication
-4. Autopilot indication
-5. Side collision warning
-6. Blind spot warning
-7. Optional blinker indication
-8. Normal ambient lighting
+## BLE UUIDs
 
-Charging animation can time out and keep the dashboard off while charging continues.
+| Charakteristik | UUID | Eigenschaften |
+|---|---|---|
+| Service | `4FAFC201-1FB5-459E-8FCC-C5C9C331914B` | — |
+| LED Command | `BEB5483E-36E1-4688-B7F5-EA07361B26A8` | Write, Write-NR |
+| Vehicle Status | `BEB5483E-36E1-4688-B7F5-EA07361B26A9` | Read, Notify |
+| Feature Settings | `BEB5483E-36E1-4688-B7F5-EA07361B26AA` | Read, Write |
+| OTA Control | `BEB5483E-36E1-4688-B7F5-EA07361B26AB` | Read, Write, Notify |
+| OTA Data | `BEB5483E-36E1-4688-B7F5-EA07361B26AC` | Write, Write-NR |
+| Device Info | `BEB5483E-36E1-4688-B7F5-EA07361B26AD` | Read |
+| Presets | `BEB5483E-36E1-4688-B7F5-EA07361B26AE` | Read, Write |
 
-## Development Status
+---
 
-This project is still in development. Some features depend on vehicle firmware, CAN signal availability, wiring quality, ESP-NOW reliability, and the exact Tesla model/configuration.
+## Projektstruktur
 
-Current goals:
+```
+TeslaAmbiente/
+├── TeslaCode/
+│   ├── Tesla_Ambiente_Master/
+│   │   └── Tesla_Ambiente_Master.ino
+│   ├── TeslaDashMultiply/
+│   │   └── TeslaDashMultiply.ino
+│   ├── TeslaDashStandalone/
+│   │   └── TeslaDashStandalone.ino
+│   └── TeslaDoorSlave/
+│       └── TeslaDoorSlave.ino
+└── iOS/
+    ├── TeslaAmbiente.xcodeproj/
+    └── TeslaAmbiente/
+        ├── TeslaAmbienteApp.swift
+        ├── Info.plist
+        ├── Models/
+        │   ├── BLEModels.swift
+        │   └── AppState.swift
+        ├── Services/
+        │   └── BLEManager.swift
+        ├── ViewModels/
+        │   └── MainViewModel.swift
+        └── Views/
+            ├── ContentView.swift
+            ├── Components/GlassCard.swift
+            ├── Dashboard/DashboardView.swift
+            ├── Dashboard/BLEScannerView.swift
+            ├── LEDControl/LEDControlView.swift
+            ├── Settings/SettingsView.swift
+            └── OTA/OTAView.swift
+```
 
-- Improve reliability of ESP-NOW communication
-- Keep OTA update paths available
-- Refine dashboard warning priorities
-- Improve web overlay usability
-- Continue validating CAN signals in real vehicle conditions
+---
 
-## Safety Notice
+## Sicherheitshinweise
 
-This is a custom hobby project connected to vehicle CAN buses and lighting hardware. Use listen-only CAN mode for readers, avoid writing to vehicle CAN, fuse LED power properly, and test carefully. Incorrect wiring or unsafe power handling can damage electronics or create fire risk.
+- **MAX_LED_BRIGHTNESS_PERCENT = 15** — Helligkeit auf 15% begrenzt
+- BLE ohne Pairing-Code — nur im eigenen Fahrzeug betreiben
+- OTA-Passwort `tesla2024` in der Produktion ändern
+- Nur lesender CAN-Bus-Zugriff — kein Eingriff in Fahrzeugsysteme
 
-Do not rely on this project as a safety system. Vehicle warnings from the original Tesla UI remain the primary source of driver information.
+---
+
+## Lizenz
+
+MIT License
+
+---
+
+*Projekt von Jesko — gebaut für Tesla Model 3/Y*
